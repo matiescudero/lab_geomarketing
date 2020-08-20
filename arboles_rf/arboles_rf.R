@@ -52,8 +52,16 @@ casen_train<-casen_mod[dt,]
 casen_test<-casen_mod[-dt,]
 
 
+#Predicción Random Forest
 ingresos_rf = randomForest(ing_nivel~edad+esc+sexo+nac, data = casen_train, ntree = 500)
 
 pred_rf  = predict(ingresos_rf, casen_test)
 
 aciertos_rf = which(casen_test$ing_nivel==pred_rf)
+
+#Predicción Árboles de Decisión
+arbol_casen = rpart(ing_nivel~edad+esc+sexo+nac,casen_train,model=T, method = "class")
+
+pred_ad = predict(arbol_casen,casen_test,type = "class")
+
+aciertos_ad = which(casen_test$ing_nivel==pred_ad)
